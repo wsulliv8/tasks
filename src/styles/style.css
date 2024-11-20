@@ -51,6 +51,9 @@ h1, h2, h3, h4, h5, h6 {
   --color-priority-medium: #ffff9d;
   --color-priority-low: #79bd8f;
   --font-size: 1.2rem;
+  --height-header: 5rem;
+  --height-footer: 2rem;
+  --height-main: calc(calc(100vh - var(--height-header)) - var(--height-footer));
   font-size: var(--font-size);
 }
 
@@ -75,7 +78,7 @@ p {
 
 body {
   display: grid;
-  grid-template: 6rem 1fr 2rem / 8rem 1fr;
+  grid-template: var(--height-header) var(--height-main) var(--height-footer) / 8rem 1fr;
   grid-template-areas: 
     "header   header"
     "sidebar  main"
@@ -137,8 +140,17 @@ header > div {
 main {
   grid-area: main;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.project-container {
+  flex: auto;
+  max-height: 100%;
+  min-height: min-content;
 }
 
 .title-line {
@@ -158,10 +170,11 @@ main {
   text-anchor: middle;
 }
 
-.project { 
+.project {
+  flex: 0;
   display: grid;
-  grid-template-rows: min-content 2fr max(max-content) max(max-content);
-  grid-template-columns: 3fr max-content;
+  grid-template-rows: min-content 1fr max-content max-content;
+  grid-template-columns: auto 30%;
   grid-template-areas: 
   "title   date"
   "desc    desc"
@@ -195,7 +208,7 @@ main {
 .task {
   grid-area: task;
   display: grid;
-  grid-template: min-content minmax(0, max-content) / 3fr max-content;
+  grid-template: min-content minmax(0, max-content) / auto 30%;
   grid-template-areas: 
   "title   date"
   "desc    desc";
