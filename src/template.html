@@ -3,17 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Restaurant Homepage</title>
+  <title>Tasks</title>
 </head>
 <body>
   <header>
+    <div>
+      <img id="logo" src="./assets/images/panda.svg" alt="cute panda">
+      <h1>Task Panda</h1>
+    </div>
     <nav>
       <button type="button">Home</button>
-      <button type="button">Menu</button>
       <button type="button">About</button>
+      <button type="button">Contact</button>
     </nav>
   </header>
-  <div id="content">
-  </div>
+  <section class="sidebar">
+    <h2>Projects</h2>
+    <form action="get">
+      <input type="checkbox" id="liftingApp" name="liftingApp">
+      <label for="liftingApp">Lifting App</label>
+    </form>
+  </section>
+  <main>
+    <div class="project">
+      <div class="title-line">
+        <h2>Lifting App</h2>
+        <div class="triangle"></div>
+      </div>
+      <div>
+        <p><strong>Due: </strong><span>11/23/2024</span></p>
+        <p><strong>Est. Hours: </strong><span>60</span></p>
+      </div>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu. </p>
+      <div class="task" data-index="0">
+          <div class="title-line">
+            <h2>Create UI</h2>
+            <div class="triangle"></div>
+          </div>          
+          <div>
+            <p><strong>Due: </strong><span>11/23/2024</span></p>
+            <p><strong>Est. Hours: </strong><span>60</span></p>
+          </div>
+          <input type="checkbox" id="toggle" class="collapsible" data-index="0">
+          <label for="toggle" class="collapsible"></label>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu.
+          </p>
+      </div>
+      <div class="task" data-index="1">
+        <div class="title-line">
+          <h2>Develop Backend</h2>
+          <div class="triangle"></div>
+        </div>        
+        <div>
+          <p><strong>Due: </strong><span>11/23/2024</span></p>
+          <p><strong>Est. Hours: </strong><span>60</span></p>
+        </div>
+        <input type="checkbox" id="toggle1" class="collapsible" data-index="1">
+        <label for="toggle1" class="collapsible"></label>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu. </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div>Created by Slab Inc</div>
+  </footer>
 </body>
 </html>
