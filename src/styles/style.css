@@ -41,6 +41,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 :root {
+  --color-dark-lavender: #ac65ca;
   --color-lavender: #c189d9;
   --color-faded-lavender: #c596d9;
   --color-warm-gray: #d5d9d2;
@@ -72,13 +73,13 @@ h3 {
   font-weight: 500;
 }
 
-p {
+p, form * {
   font-size: calc(0.7*var(--font-size));
 }
 
 body {
   display: grid;
-  grid-template: var(--height-header) var(--height-main) var(--height-footer) / 8rem 1fr;
+  grid-template: var(--height-header) var(--height-main) var(--height-footer) / 12rem 1fr;
   grid-template-areas: 
     "header   header"
     "sidebar  main"
@@ -135,6 +136,23 @@ header > div {
   gap: 0.5rem;
   padding: 1rem 1rem;
   background-color: var(--color-beige);
+}
+
+.action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10rem;
+  height: 1.2rem;
+  border: none;
+  border-radius: 20px ;
+  background-color: var(--color-coral);
+}
+
+.action-button  img {
+  display: inline;
+  height: 1rem;
+  width: auto;
 }
 
 main {
@@ -283,3 +301,112 @@ footer {
   grid-area: footer;
   background-color: var(--color-faded-lavender);
 }
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+}
+
+form.project {
+  grid-template-columns: repeat(2, 300px);
+  grid-template-rows: repeat(5, min-content);
+  grid-template-areas: 
+  "title     date"
+  "title     hours"
+  "desc      desc"
+  "add-task  add-task"
+  "save      save";
+  column-gap: 2rem;
+  row-gap: 1rem;
+  position: relative;
+  width: 100%;
+}
+
+.close-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.close-modal img {
+  height: 1.5rem;
+  width: auto;
+}
+
+.close-modal:hover {
+  cursor: pointer;
+
+}
+
+.floating-content:nth-child(3) {
+  grid-area: hours;
+}
+
+.floating-content:nth-child(4) {
+  grid-area: desc;
+}
+
+#project-description {
+  height: 20ch;
+  padding-top: 1rem;
+}
+
+form button.action-button {
+  grid-area: add-task;
+  justify-self: center;
+}
+
+form button[type='submit'] {
+  grid-area: save;
+  background-color: var(--color-priority-low);
+}
+
+.floating-content { 
+  position:relative; 
+}
+
+.floating-label {
+  position:absolute;
+  left:15px;
+  top:11px;
+  padding: 0 5px;
+  color: rgba(0,0,0,0.6);
+  background: var(--color-faded-lavender);
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+
+.floating-input, .floating-select {
+  display:block;
+  width:100%;
+  height: calc(2*var(--font-size));
+  padding: 0 20px;
+  background: none;
+  border: 1px solid var(--color-dark-lavender);
+  border-radius: 14px;
+  &:focus{
+    outline:none;
+    ~ .floating-label{
+      top: -10px;
+    }
+  }
+}
+
+.floating-input:not(:placeholder-shown) ~ .floating-label {
+  top:-10px;
+}
+
