@@ -40,38 +40,40 @@
           <p><strong>Est. Hours: </strong><span>60</span></p>
         </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu. </p>
-        <div class="task" data-index="0">
+        <div class="task-flex">
+          <div class="task" data-index="0">
+              <div class="title-line">
+                <h2>Create UI</h2>
+                <div class="triangle"></div>
+              </div>
+              <div>
+                <p><strong>Due: </strong><span>11/23/2024</span></p>
+                <p><strong>Est. Hours: </strong><span>60</span></p>
+              </div>
+              <input type="checkbox" id="toggle" class="collapsible" data-index="0">
+              <label for="toggle" class="collapsible"></label>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu.
+              </p>
+          </div>
+          <div class="task" data-index="1">
             <div class="title-line">
-              <h2>Create UI</h2>
+              <h2>Develop Backend</h2>
               <div class="triangle"></div>
             </div>
             <div>
               <p><strong>Due: </strong><span>11/23/2024</span></p>
               <p><strong>Est. Hours: </strong><span>60</span></p>
             </div>
-            <input type="checkbox" id="toggle" class="collapsible" data-index="0">
-            <label for="toggle" class="collapsible"></label>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu.
-            </p>
-        </div>
-        <div class="task" data-index="1">
-          <div class="title-line">
-            <h2>Develop Backend</h2>
-            <div class="triangle"></div>
-          </div>
-          <div>
-            <p><strong>Due: </strong><span>11/23/2024</span></p>
-            <p><strong>Est. Hours: </strong><span>60</span></p>
-          </div>
-          <input type="checkbox" id="toggle1" class="collapsible" data-index="1">
-          <label for="toggle1" class="collapsible"></label>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu. </p>
+            <input type="checkbox" id="toggle1" class="collapsible" data-index="1">
+            <label for="toggle1" class="collapsible"></label>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta velit felis, vitae consectetur arcu malesuada eget. Donec semper odio sit amet mi egestas ullamcorper nec ut arcu. </p>
+            </div>
           </div>
           <button type="button" class="action-button">
             <img src="./assets/images/plus.svg" alt="plus sign" width="20px" height="20px">
             <p>Add Task</p>
-          </button>  
+          </button>
         </div>
       </div>
     </div>

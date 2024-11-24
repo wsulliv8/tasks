@@ -191,13 +191,12 @@ main {
 .project {
   flex: 0;
   display: grid;
-  grid-template-rows: min-content 1fr max-content max-content max-content;
+  grid-template-rows: min-content 1fr max-content max-content;
   grid-template-columns: auto 30%;
   grid-template-areas: 
   "title   date"
   "desc    desc"
-  "task    task"
-  "task    task"
+  "tasks   tasks"
   "add     add";
   align-items: center;
   gap: 0.5rem;
@@ -224,8 +223,20 @@ main {
   grid-area: desc;
 }
 
+
+.project > :last-child {
+  grid-area: add;
+  justify-self:center;
+}
+
+.task-flex {
+  grid-area: tasks;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .task {
-  grid-area: task;
   display: grid;
   grid-template: min-content minmax(0, max-content) / auto 30%;
   grid-template-areas: 
@@ -238,23 +249,17 @@ main {
   border-radius: 14px;
 }
 
-.task[data-index='0'] {
+/* .task[data-index='0'] {
   grid-row: 3/4;
 }
-
+  
 .task[data-index='1'] {
   grid-row: 4/5;
-}
+}  */
 
 .task p:nth-child(n+3) {
   max-height: 0; 
   visibility: hidden;
-}
-
-.task + button {
-  grid-row: 5/6;
-  grid-column: 1/3;
-  justify-self:center;
 }
 
 .collapsible {

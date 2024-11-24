@@ -5,19 +5,27 @@ export { displayController };
 const displayController = (function() {
   const addProjectButton = document.querySelector('#add-project'),
         closeModalButton = document.querySelector('.close-modal'),
-        addTaskButton = document.querySelector('.sidebar .action-button'),
+        addTaskButton = document.querySelector('.project .action-button'),
         project = document.querySelector('.project'),
         modal = document.querySelector('.modal'),
         modalForm = document.querySelector('.modal form'),
-        modalAddTaskButton = document.querySelector('.project button:first-of-type');
-  addProjectButton.addEventListener('click', () => modal.style.display = 'flex');
+        modalAddTaskButton = document.querySelector('.modal .project button:first-of-type')
+        ;
+  addProjectButton.addEventListener('click', addProject);
   closeModalButton.addEventListener('click', () => modal.style.display = 'none');
-  addTaskButton.addEventListener('click' , () => addTask);
-  modalAddTaskButton.addEventListener('click', () => addTask);
+  addTaskButton.addEventListener('click' , addTask);
+  modalAddTaskButton.addEventListener('click', addTask);
 
-  function addTask(e) {
+  function addTask() {
     modalAddTaskButton.style.display = 'none';
     modalForm.name = 'task_form';
+    modal.style.display = 'flex';
+  }
+
+  function addProject() {
+    modalAddTaskButton.style.display = 'flex';
+    modalForm.name = 'project_form';
+    modal.style.display = 'flex';
   }
 
   const domReady = (cb) => {
