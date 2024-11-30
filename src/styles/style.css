@@ -29,6 +29,14 @@ p, h1, h2, h3, h4, h5, h6 {
 	vertical-align: baseline;
 }
 
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
 p {
   text-wrap: pretty;
 }
@@ -48,9 +56,9 @@ h1, h2, h3, h4, h5, h6 {
   --color-bright-red: #f24405;
   --color-coral: #f27457; 
   --color-beige: #f5f5dc;
-  --color-priority-high: #ff6138;
-  --color-priority-medium: #ffff9d;
-  --color-priority-low: #79bd8f;
+  --color-priority-1: #ff6138;
+  --color-priority-2: #ffff9d;
+  --color-priority-3: #79bd8f;
   --font-size: 1.2rem;
   --height-header: 5rem;
   --height-footer: 2rem;
@@ -161,7 +169,7 @@ main {
   flex-direction: column;
   flex-wrap: wrap;
   gap: 1rem;
-  overflow: auto;
+  overflow-y: hidden;
   padding: 1rem;
 }
 
@@ -169,6 +177,67 @@ main {
   flex: auto;
   max-height: 100%;
   min-height: min-content;
+}
+
+.project-container > div {
+  position: relative;
+  height: 100%;
+  width: auto;
+}
+
+.edit-button {
+  position: absolute;
+  top: 5px;
+  left: 5px; 
+  z-index: 1; 
+  border: none;
+  background-color: transparent;
+}
+
+.popup {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: absolute;
+  z-index: 2;
+  top: 5px;
+  left: 5px;
+  width: 10rem;
+  padding: 1rem 0;
+  background-color: var(--color-beige);
+  border-radius: 14px;
+}
+
+.popup ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.popup ul button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+.popup ul button:hover {
+  background-color: var(--color-dark-lavender);
+}
+
+.popup ul button:nth-child(3) {
+  margin-top: 1rem;
+}
+
+.popup li {
+  list-style-type: none;
+  text-align: left;
+  width: 5rem;
+}
+
+.popup ul > li {
+  padding-left: 1rem; 
 }
 
 .title-line {
@@ -179,7 +248,7 @@ main {
 }
 
 .triangle {
-  background-color: var(--color-priority-high);
+  background-color: var(--color-priority-1);
   width: 1.5rem;
   height: 1.5rem;
   mask-image: url(../assets/images/triangle.svg);
@@ -191,7 +260,7 @@ main {
 .project {
   flex: 0;
   display: grid;
-  grid-template-rows: min-content 1fr max-content max-content;
+  grid-template-rows: min-content max-content max-content max-content;
   grid-template-columns: auto 30%;
   grid-template-areas: 
   "title   date"
@@ -199,6 +268,7 @@ main {
   "tasks   tasks"
   "add     add";
   align-items: center;
+  position: relative;
   gap: 0.5rem;
   width: 600px;
   background-color: var(--color-faded-lavender);
@@ -212,10 +282,10 @@ main {
   justify-self: center;
 }
 
-.project :nth-child(2),
-.task :nth-child(2) {
+.project > :nth-child(2),
+.task > :nth-child(2) {
   grid-area: date;
-  padding-right: 1rem;
+  padding-right: 1rem; 
 }
 
 .project :nth-child(3),
@@ -224,7 +294,7 @@ main {
 }
 
 
-.project > :last-child {
+.project > :last-child { 
   grid-area: add;
   justify-self:center;
 }
@@ -236,12 +306,17 @@ main {
   gap: 0.5rem;
 }
 
-.task {
+.task-container {
+  position: relative;
+}
+
+.task { 
   display: grid;
-  grid-template: min-content minmax(0, max-content) / auto 30%;
+  grid-template: min-content repeat(2, minmax(0, max-content)) / auto 30%;
   grid-template-areas: 
   "title   date"
-  "desc    desc";
+  "desc    desc"
+  "save    save";
   align-items: center;
   position: relative;
   background-color: var(--color-beige);
@@ -249,15 +324,12 @@ main {
   border-radius: 14px;
 }
 
-/* .task[data-index='0'] {
-  grid-row: 3/4;
+form.task {
+  grid-template-columns: auto 40%;
+  gap: 0.5rem;
 }
-  
-.task[data-index='1'] {
-  grid-row: 4/5;
-}  */
 
-.task p:nth-child(n+3) {
+.task > p {
   max-height: 0; 
   visibility: hidden;
 }
@@ -307,6 +379,7 @@ label.collapsible::before {
 .collapsible[type='checkbox']:checked + label + p{
   max-height: max-content;
   visibility: visible;
+  padding-top: 0.5rem;
 }
 
 footer {
@@ -334,8 +407,8 @@ form.project {
   grid-template-rows: repeat(5, min-content);
   grid-template-areas: 
   "title     date"
-  "title     hours"
   "desc      desc"
+  "tasks     tasks"
   "add-task  add-task"
   "save      save";
   column-gap: 2rem;
@@ -352,6 +425,10 @@ form.project {
   border: none;
 }
 
+form.task .close-modal {
+  right: -5px;
+}
+
 .close-modal img {
   height: 1.5rem;
   width: auto;
@@ -359,15 +436,20 @@ form.project {
 
 .close-modal:hover {
   cursor: pointer;
+}
 
+form .date-flex{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .floating-content:nth-child(3) {
-  grid-area: hours;
+  grid-area: desc;
 }
 
-.floating-content:nth-child(4) {
-  grid-area: desc;
+form .task-flex {
+  grid-area: tasks;
 }
 
 #project-description {
@@ -382,7 +464,7 @@ form button.action-button {
 
 form button[type='submit'] {
   grid-area: save;
-  background-color: var(--color-priority-low);
+  background-color: var(--color-priority-3);
 }
 
 .floating-content { 
@@ -393,12 +475,16 @@ form button[type='submit'] {
   position:absolute;
   left:15px;
   top:11px;
-  padding: 0 5px;
+  /* padding: 0 5px; */
   color: rgba(0,0,0,0.6);
   background: var(--color-faded-lavender);
   transition:0.2s ease all; 
   -moz-transition:0.2s ease all; 
   -webkit-transition:0.2s ease all;
+}
+
+form.task .floating-label {
+  background: var(--color-beige);
 }
 
 
@@ -421,4 +507,5 @@ form button[type='submit'] {
 .floating-input:not(:placeholder-shown) ~ .floating-label {
   top:-10px;
 }
+
 
