@@ -1416,15 +1416,17 @@ const displayController = (function() {
   //update display if projects are stored in local storage
   function recallFromStorage() {
     let projects = JSON.parse(localStorage.getItem('projects'));
-    Object.values(projects).forEach((project) => {
-      const newProject = (0,_components_task_elements__WEBPACK_IMPORTED_MODULE_0__.makeProject)(_components_task_elements__WEBPACK_IMPORTED_MODULE_0__.elementController.objectToForm(project.info));
-      project.tasks.forEach((task) => {
-        const newTask = (0,_components_task_elements__WEBPACK_IMPORTED_MODULE_0__.makeTask)(_components_task_elements__WEBPACK_IMPORTED_MODULE_0__.elementController.objectToForm(task.info));
-        newProject.addTask(newTask);
+    if (projects) {
+      Object.values(projects).forEach((project) => {
+        const newProject = (0,_components_task_elements__WEBPACK_IMPORTED_MODULE_0__.makeProject)(_components_task_elements__WEBPACK_IMPORTED_MODULE_0__.elementController.objectToForm(project.info));
+        project.tasks.forEach((task) => {
+          const newTask = (0,_components_task_elements__WEBPACK_IMPORTED_MODULE_0__.makeTask)(_components_task_elements__WEBPACK_IMPORTED_MODULE_0__.elementController.objectToForm(task.info));
+          newProject.addTask(newTask);
+        })
+        _components_task_elements__WEBPACK_IMPORTED_MODULE_0__.elementController.addProject(newProject);
+        appendProject(newProject);
       })
-      _components_task_elements__WEBPACK_IMPORTED_MODULE_0__.elementController.addProject(newProject);
-      appendProject(newProject);
-    })
+    }
   }
 
   const domReady = (cb) => {
@@ -1600,7 +1602,7 @@ __webpack_require__.r(__webpack_exports__);
 
 _pages_display_controller__WEBPACK_IMPORTED_MODULE_1__.displayController.domReady(() => {
   //update dom with previously saved projects
-  if (storageAvailable("localStorage")) {
+  if (storageAvailable("localStorage") ) {
     _pages_display_controller__WEBPACK_IMPORTED_MODULE_1__.displayController.recallFromStorage();
   }
   document.body.style.visibility = 'visible';
