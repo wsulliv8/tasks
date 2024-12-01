@@ -31,6 +31,23 @@
       <img src="./assets/images/plus.svg" alt="plus sign" width="20px" height="20px">
       <p>Add Project</p>
     </button>
+    <h3>Sort Projects</h3>
+    <div class="sort-flex">
+      <form action="get">
+        <div>
+          <input type="radio" id="sort-priority" name="project-sort" value="project_priority">
+          <label for="sort-priority">Priority</label>
+        </div>
+        <div>
+          <input type="radio" id="sort-due-date" name="project-sort" value="project_due_date">
+          <label for="sort-due-date">Due Date</label>
+        </div>
+        <div>
+          <input type="radio" id="sort-hours" name="project-sort" value="project_hours">
+          <label for="sort-hours">Hours</label>
+        </div>
+      </form>
+    </div>
   </section>
   <main>
     
@@ -123,10 +140,13 @@
         <ul>
           <li>Sort By</li>
           <ul>
-            <button type="button">
+            <button type="button" name="task-sort" value="task_priority">
+              <li>Priority</li>
+            </button>
+            <button type="button" name="task-sort" value="task_due_date">
               <li>Date</li>
             </button>
-            <button type="button">
+            <button type="button" name="task-sort" value="task_hours">
               <li>Hours</li>
             </button>
           </ul>

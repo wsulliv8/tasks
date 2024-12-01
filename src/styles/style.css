@@ -141,9 +141,28 @@ header > div {
   grid-area: sidebar;
   display: flex;
   flex-direction: column;
+  align-items: center  ;
   gap: 0.5rem;
   padding: 1rem 1rem;
   background-color: var(--color-beige);
+}
+
+.sidebar .project-flex {
+  align-self: flex-start;
+}
+
+.sidebar h3 {
+  padding-top: 1rem;
+}
+
+.sort-flex {
+  align-self:flex-start;
+}
+
+.sort-flex form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .action-button {
@@ -226,10 +245,6 @@ main {
   background-color: var(--color-dark-lavender);
 }
 
-.popup ul button:nth-child(3) {
-  margin-top: 1rem;
-}
-
 .popup li {
   list-style-type: none;
   text-align: left;
@@ -240,11 +255,21 @@ main {
   padding-left: 1rem; 
 }
 
+.popup > ul > li:nth-of-type(2) {
+  margin-top: 1rem;
+}
+
 .title-line {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+}
+
+.title-line h2 {
+  flex: auto;
+  text-align: center;
+  max-width: 300px;
 }
 
 .triangle {

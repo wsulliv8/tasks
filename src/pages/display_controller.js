@@ -3,11 +3,13 @@ export { displayController };
 
 
 const displayController = (function() {
+  //associate dom elements with task_elements
   const projectNodes = new WeakMap();
   const taskNodes = new WeakMap();
 
   const main = document.querySelector('main'),
         addProjectButton = document.querySelector('#add-project'),
+        projectSortButtons = document.querySelectorAll(`input[name='project-sort']`),
         projectFlexSidebar = document.querySelector('.sidebar .project-flex'),
         closeModalButton = document.querySelector('.close-modal'),
         modal = document.querySelector('.modal'),
@@ -22,6 +24,7 @@ const displayController = (function() {
   modalSubmitProject.addEventListener('click', saveProject);
   closeModalButton.addEventListener('click', () => closeModal(modal));
   modalAddTaskButton.addEventListener('click', addTask);
+  projectSortButtons.forEach((button) => button.addEventListener('change', elementSort));
 
   function addTask(e) {
     const newTaskForm = taskFormTemplate.cloneNode(true);
@@ -50,6 +53,7 @@ const displayController = (function() {
       e.preventDefault();
       const form = e.currentTarget.form;
       const task = makeTask(new FormData(form));
+      //only save task to project if project is saved (outside new project modal)
       const projectNode = form.closest('.project-container');
       if (projectNode) 
         saveTask(task, projectNodes.get(projectNode))
@@ -83,14 +87,12 @@ const displayController = (function() {
     task.project = project;
     project.addTask(task);
     localStorage.setItem('projects', elementController.stringify());
-    console.log(localStorage.getItem('projects'))
-
   }
 
   function addProject(e) {
     //!!Need to check if project name is already taken!!
     modal.style.display = 'flex';
-
+    //if called from edit button, fill in form as applicable
     if (e.currentTarget.name === 'edit'){
       const project = projectNodes.get(e.currentTarget.closest('.project-container'));
       modal.querySelectorAll('[data-content]').forEach(input => {
@@ -98,18 +100,14 @@ const displayController = (function() {
       });
       project.tasks.forEach((task) => appendTask(task, modalTaskFlex));
     }
-
   }
 
   function saveProject(e) {
     e.preventDefault();
-    const newProjectNode = projectTemplate.cloneNode(true);
     const newProject = makeProject(new FormData(modalForm));
-    const newProjectTitle = newProject.info['project_title'];
-    projectNodes.set(newProjectNode, newProject);
     elementController.addProject(newProject);
 
-    //append all tasks to newProject
+    //add all tasks to newProject
     for (const node of modalTaskFlex.children) {
       saveTask(taskNodes.get(node), newProject);
       taskNodes.delete(node);
@@ -119,26 +117,32 @@ const displayController = (function() {
     closeModal(modal);
     modalForm.reset();
     modalTaskFlex.innerHTML = '';
+    appendProject(newProject);
+  }
+
+  function appendProject(project) {
+    const projectNode = projectTemplate.cloneNode(true);
+    const projectTitle = project.info['project_title'];
+    projectNodes.set(projectNode, project);
 
     //update content of newly created project node
-    newProjectNode.querySelectorAll('[data-content]').forEach(node => {
-      node.innerText = newProject.info[node.dataset.content];
+    projectNode.querySelectorAll('[data-content]').forEach(node => {
+      node.innerText = project.info[node.dataset.content];
     });
-    newProjectNode.querySelector(`.triangle`)
-    .style.backgroundColor = `var(--color-priority-${newProject.info['project_priority']})`;
+    projectNode.querySelector(`.triangle`)
+      .style.backgroundColor = `var(--color-priority-${project.info['project_priority']})`;
 
-    elementController.projects[newProjectTitle].tasks.forEach((task) => {
-      appendTask(task, newProjectNode.querySelector('.task-flex'));
+    elementController.projects[projectTitle].tasks.forEach((task) => {
+      appendTask(task, projectNode.querySelector('.task-flex'));
     })
 
     //Activate project node
-    newProjectNode.querySelector('button.action-button').addEventListener('click',addTask);
-    addEditButton(newProjectNode);
-
-    newProjectNode.style.display = 'grid';
-    newProjectNode.removeAttribute('id');
-    newProjectNode.style.display = 'block';
-    main.appendChild(newProjectNode);
+    projectNode.querySelector('button.action-button').addEventListener('click',addTask);
+    addEditButton(projectNode);
+    projectNode.style.display = 'grid';
+    projectNode.removeAttribute('id');
+    projectNode.style.display = 'block';
+    main.appendChild(projectNode);
 
     //Append project on sidebar
     const projectCheckbox = document.getElementById('project-checkbox-template').cloneNode(true);
@@ -146,18 +150,18 @@ const displayController = (function() {
     projectCheckbox.removeAttribute('id');
     const projectLabel = projectCheckbox.querySelector('label');
     const projectInput = projectCheckbox.querySelector('input');
-    projectLabel.innerText = newProjectTitle;
-    projectLabel.setAttribute('for', newProjectTitle.replace(/ /g,"-"));
-    projectInput.setAttribute('id', newProjectTitle.replace(/ /g,"-"));
-    projectInput.setAttribute('value', newProjectTitle);
+    projectLabel.innerText = projectTitle;
+    projectLabel.setAttribute('for', project.info['project_title'].replace(/ /g,"-"));
+    projectInput.setAttribute('id', projectTitle.replace(/ /g,"-"));
+    projectInput.setAttribute('value', projectTitle);
     projectCheckbox.addEventListener('change', (e) => {
-      if (e.target.checked) newProjectNode.style.display = 'grid';
-      else newProjectNode.style.display = 'none';
+      if (e.target.checked) projectNode.style.display = 'grid';
+      else projectNode.style.display = 'none';
     })
     projectFlexSidebar.appendChild(projectCheckbox);
 
     //Relate project checkbox to project
-    newProjectNode.projectCheckbox = projectCheckbox;
+    projectNode.projectCheckbox = projectCheckbox;
   }
 
   function addEditButton(node) {
@@ -166,6 +170,7 @@ const displayController = (function() {
       popup.style.display = 'flex';
       popup.querySelector('.close-modal').addEventListener('click', () => closeModal(popup));
       popup.querySelector(`button[name='delete']`).addEventListener('click', () => deleteNode(node));
+      popup.querySelectorAll(`button[name='task-sort']`).forEach((button) => button.addEventListener('click', elementSort));
       popup.querySelector(`button[name='edit']`).addEventListener('click', (e) => {
         if (e.currentTarget.closest('.task-container'))
           addTask(e);
@@ -177,7 +182,7 @@ const displayController = (function() {
   }
 
   function deleteNode(node) {
-    if (node.projectCheckbox) {
+    if (node.getAttribute('class') === 'project-container') {
       node.projectCheckbox.remove();
       const project = projectNodes.get(node);
       //Delete all project tasks from project object and WeakMap
@@ -194,12 +199,41 @@ const displayController = (function() {
     }
     node.remove();
     localStorage.setItem('projects', elementController.stringify());
-    console.log(localStorage.getItem('projects'))
-
   }
 
   function closeModal(modal) {
     modal.style.display = 'none';
+  }
+
+  function elementSort(e) {
+    if (e.currentTarget.name === 'project-sort') {
+      const elements = elementController.sort(e.currentTarget.value);
+      main.querySelectorAll('.project-container').forEach((node) => {
+        node.projectCheckbox.remove();
+        node.remove();
+      });
+      elements.forEach(appendProject);
+    } else {
+      const projectNode = e.currentTarget.closest('.project-container');
+      const elements = projectNodes.get(projectNode).sort(e.currentTarget.value);
+      let taskFlex = projectNode.querySelector('.task-flex')
+      taskFlex.innerHTML = '';
+      elements.forEach((task) => appendTask(task, taskFlex));
+    }
+  }
+
+  //update display if projects are stored in local storage
+  function recallFromStorage() {
+    let projects = JSON.parse(localStorage.getItem('projects'));
+    Object.values(projects).forEach((project) => {
+      const newProject = makeProject(elementController.objectToForm(project.info));
+      project.tasks.forEach((task) => {
+        const newTask = makeTask(elementController.objectToForm(task.info));
+        newProject.addTask(newTask);
+      })
+      elementController.addProject(newProject);
+      appendProject(newProject);
+    })
   }
 
   const domReady = (cb) => {
@@ -208,6 +242,6 @@ const displayController = (function() {
       : document.addEventListener('DOMContentLoaded', cb);
   }
 
-  return {domReady}
+  return {domReady, recallFromStorage}
 
 })(); 

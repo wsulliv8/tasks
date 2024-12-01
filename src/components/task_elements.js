@@ -1,8 +1,9 @@
 import { formatDate, compareDate } from "../../node_modules/date-fns";
+import { elementSort } from "./task_logic";
 export { makeTask, makeProject, elementController };
 
 const elementController = (function() {
-  const projects = {};
+  let projects = {};
   let newTaskId = 0;
 
   const addProject = (project) => {
@@ -11,48 +12,36 @@ const elementController = (function() {
 
   const removeProject = (project) => delete projects[project.info['project_title']];
 
-/*   function functionToString() {
-    //create deep copy of projects to convert to string
-    const projectsCopy = structuredClone(projects);
-    for (const project of projectsCopy) {
-      for (const task of project.tasks) {
-        task.getTaskId = task.getTaskId.toString();
-        task.setTaskId = task.setTaskId.toString();
-      }
-      project.addTask = project.addTask.toString();
-      project.removeTask = project.removeTask.toString();s
-    }
-    return projectsCopy;
-  } */
+  const getNewTaskId = (task) => ++newTaskId;
+
+  const sort = (type) => elementSort(Object.values(projects), type);
 
   function stringify(obj) {
     let cache = [];
     let str = JSON.stringify(projects, function(key, value) {
+      //discard circular references
       if (typeof value === "object" && value !== null) {
         if (cache.indexOf(value) !== -1) {
-          // Circular reference found, discard key
           return;
         }
-        // Store value in our collection
         cache.push(value);
       }
       return value;
     }, 2);
-    cache = null; // reset the cache
- 
-/*     Object.values(projects).forEach((project) => {
-      let str = [JSON.stringify(project, ['info'], 2)]
-      project.tasks.forEach((task) => {
-        str.push(JSON.stringify(task, ['info'], 2))
-      })
-    }) */
+    cache = null;
 
     return str;
   }
 
-  const getNewTaskId = (task) => ++newTaskId;
+  function objectToForm(object) {
+    const form = new FormData();
+    for (const infoKey in object) {
+      form.append(infoKey, object[infoKey]);
+    }
+    return form;
+  }
 
-  return { projects, addProject, removeProject, getNewTaskId, stringify }
+  return { projects, addProject, removeProject, getNewTaskId, sort, stringify, objectToForm }
 })();
 
 function makeProject(projectData) {
@@ -60,24 +49,25 @@ function makeProject(projectData) {
   let tasks = [];
 
   for (const [key, value] of projectData) 
-    info[key] = projectData.get(key);  
+    info[key] = (key==='project_due_date') 
+      ? new Date(projectData.get(key)).toLocaleDateString('en-US')
+      : projectData.get(key);  
   
-
   function addTask (task) { 
     this.tasks.push(task)
-    return this
+    return this;
   };
 
   function removeTask(task) {
     this.tasks = this.tasks.filter((currentTask) => {
-      let c = currentTask.getTaskId()
-      let t = task.getTaskId()
       return currentTask.getTaskId() !== task.getTaskId()
     });
     return this;
   }
+
+  const sort = (type) => elementSort(tasks, type);
   
-  return { info, addTask, removeTask, tasks };
+  return { info, addTask, removeTask, tasks, sort };
 }
 
 function makeTask(taskData) {
@@ -85,8 +75,11 @@ function makeTask(taskData) {
   let taskId = 0;
   let project = '';
 
-  for (const [key, value] of taskData) 
-    info[key] = taskData.get(key);
+  for (const [key, value] of taskData) {
+    info[key] = (key==='task_due_date') 
+    ? new Date(taskData.get(key)).toLocaleDateString('en-US')
+    : taskData.get(key); 
+  }
 
   const getTaskId = () => taskId;
 
