@@ -1,5 +1,6 @@
 import { formatDate, compareDate } from "../../node_modules/date-fns";
-import { elementSort } from "./task_logic";
+import { elementSort } from './task_logic';
+
 export { makeTask, makeProject, elementController };
 
 const elementController = (function() {

@@ -6,7 +6,6 @@ const displayController = (function() {
   //associate dom elements with task_elements
   const projectNodes = new WeakMap();
   const taskNodes = new WeakMap();
-
   const main = document.querySelector('main'),
         addProjectButton = document.querySelector('#add-project'),
         projectSortButtons = document.querySelectorAll(`input[name='project-sort']`),
@@ -225,15 +224,17 @@ const displayController = (function() {
   //update display if projects are stored in local storage
   function recallFromStorage() {
     let projects = JSON.parse(localStorage.getItem('projects'));
-    Object.values(projects).forEach((project) => {
-      const newProject = makeProject(elementController.objectToForm(project.info));
-      project.tasks.forEach((task) => {
-        const newTask = makeTask(elementController.objectToForm(task.info));
-        newProject.addTask(newTask);
+    if (projects) {
+      Object.values(projects).forEach((project) => {
+        const newProject = makeProject(elementController.objectToForm(project.info));
+        project.tasks.forEach((task) => {
+          const newTask = makeTask(elementController.objectToForm(task.info));
+          newProject.addTask(newTask);
+        })
+        elementController.addProject(newProject);
+        appendProject(newProject);
       })
-      elementController.addProject(newProject);
-      appendProject(newProject);
-    })
+    }
   }
 
   const domReady = (cb) => {

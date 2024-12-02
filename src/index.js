@@ -1,9 +1,11 @@
 import "./styles/style.css";
 import { displayController } from "./pages/display_controller";
+import "./styles/style.css";
+
 
 displayController.domReady(() => {
   //update dom with previously saved projects
-  if (storageAvailable("localStorage")) {
+  if (storageAvailable("localStorage") ) {
     displayController.recallFromStorage();
   }
   document.body.style.visibility = 'visible';

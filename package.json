@@ -1,5 +1,5 @@
 {
-  "name": "restaurant-page",
+  "name": "tasks",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,16 +13,23 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^8.57.1",
     "css-loader": "^7.1.2",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^15.13.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.3",
     "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.3.10",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0",
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
-    "date-fns": "^4.1.0"
+    "date-fns": "^4.1.0",
+    "html-webpack-plugin": "^5.6.3"
   }
 }
