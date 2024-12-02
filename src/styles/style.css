@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -11,22 +13,35 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
   padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
 ul {
@@ -40,11 +55,17 @@ li {
 p {
   text-wrap: pretty;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-wrap: balance;
 }
 
-#root, #__next {
+#root,
+#__next {
   isolation: isolate;
 }
 
@@ -54,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
   --color-faded-lavender: #c596d9;
   --color-warm-gray: #d5d9d2;
   --color-bright-red: #f24405;
-  --color-coral: #f27457; 
+  --color-coral: #f27457;
   --color-beige: #f5f5dc;
   --color-priority-1: #ff6138;
   --color-priority-2: #ffff9d;
@@ -62,36 +83,41 @@ h1, h2, h3, h4, h5, h6 {
   --font-size: 1.2rem;
   --height-header: 5rem;
   --height-footer: 2rem;
-  --height-main: calc(calc(100vh - var(--height-header)) - var(--height-footer));
+  --height-main: calc(
+    calc(100vh - var(--height-header)) - var(--height-footer)
+  );
   font-size: var(--font-size);
 }
 
 h1 {
-  font-size: calc(1.4*var(--font-size));
+  font-size: calc(1.4 * var(--font-size));
   font-weight: 600;
 }
 
 h2 {
-  font-size: calc(1.2*var(--font-size));
+  font-size: calc(1.2 * var(--font-size));
   font-weight: 600;
 }
 
 h3 {
-  font-size: calc(1.1*var(--font-size));
+  font-size: calc(1.1 * var(--font-size));
   font-weight: 500;
 }
 
-p, form * {
-  font-size: calc(0.7*var(--font-size));
+p,
+form * {
+  font-size: calc(0.7 * var(--font-size));
 }
 
 body {
   display: grid;
-  grid-template: var(--height-header) var(--height-main) var(--height-footer) / 12rem 1fr;
-  grid-template-areas: 
-    "header   header"
-    "sidebar  main"
-    "footer   footer";
+  grid-template:
+    var(--height-header) var(--height-main) var(--height-footer)
+    / 12rem 1fr;
+  grid-template-areas:
+    'header   header'
+    'sidebar  main'
+    'footer   footer';
   justify-content: flex-start;
   height: 100vh;
   background-color: var(--color-warm-gray);
@@ -133,7 +159,7 @@ header > div {
 
 #logo {
   display: inline;
-  height: calc(3*var(--font-size));
+  height: calc(3 * var(--font-size));
   width: auto;
 }
 
@@ -141,7 +167,7 @@ header > div {
   grid-area: sidebar;
   display: flex;
   flex-direction: column;
-  align-items: center  ;
+  align-items: center;
   gap: 0.5rem;
   padding: 1rem 1rem;
   background-color: var(--color-beige);
@@ -156,7 +182,7 @@ header > div {
 }
 
 .sort-flex {
-  align-self:flex-start;
+  align-self: flex-start;
 }
 
 .sort-flex form {
@@ -172,11 +198,11 @@ header > div {
   width: 10rem;
   height: 1.2rem;
   border: none;
-  border-radius: 20px ;
+  border-radius: 20px;
   background-color: var(--color-coral);
 }
 
-.action-button  img {
+.action-button img {
   display: inline;
   height: 1rem;
   width: auto;
@@ -207,8 +233,8 @@ main {
 .edit-button {
   position: absolute;
   top: 5px;
-  left: 5px; 
-  z-index: 1; 
+  left: 5px;
+  z-index: 1;
   border: none;
   background-color: transparent;
 }
@@ -252,7 +278,7 @@ main {
 }
 
 .popup ul > li {
-  padding-left: 1rem; 
+  padding-left: 1rem;
 }
 
 .popup > ul > li:nth-of-type(2) {
@@ -287,11 +313,11 @@ main {
   display: grid;
   grid-template-rows: min-content max-content max-content max-content;
   grid-template-columns: auto 30%;
-  grid-template-areas: 
-  "title   date"
-  "desc    desc"
-  "tasks   tasks"
-  "add     add";
+  grid-template-areas:
+    'title   date'
+    'desc    desc'
+    'tasks   tasks'
+    'add     add';
   align-items: center;
   position: relative;
   gap: 0.5rem;
@@ -310,7 +336,7 @@ main {
 .project > :nth-child(2),
 .task > :nth-child(2) {
   grid-area: date;
-  padding-right: 1rem; 
+  padding-right: 1rem;
 }
 
 .project :nth-child(3),
@@ -318,10 +344,9 @@ main {
   grid-area: desc;
 }
 
-
-.project > :last-child { 
+.project > :last-child {
   grid-area: add;
-  justify-self:center;
+  justify-self: center;
 }
 
 .task-flex {
@@ -335,13 +360,13 @@ main {
   position: relative;
 }
 
-.task { 
+.task {
   display: grid;
   grid-template: min-content repeat(2, minmax(0, max-content)) / auto 30%;
-  grid-template-areas: 
-  "title   date"
-  "desc    desc"
-  "save    save";
+  grid-template-areas:
+    'title   date'
+    'desc    desc'
+    'save    save';
   align-items: center;
   position: relative;
   background-color: var(--color-beige);
@@ -355,12 +380,12 @@ form.task {
 }
 
 .task > p {
-  max-height: 0; 
+  max-height: 0;
   visibility: hidden;
 }
 
 .collapsible {
-  position:absolute;
+  position: absolute;
   bottom: -5px;
   right: -5px;
 }
@@ -384,7 +409,7 @@ label.collapsible::before {
   border-right: 7px solid currentColor;
 
   vertical-align: middle;
-  margin-right: .7rem;
+  margin-right: 0.7rem;
   transform: translateY(-2px);
 }
 
@@ -401,7 +426,7 @@ label.collapsible::before {
   transform: rotate(90deg) translateX(-3px);
 }
 
-.collapsible[type='checkbox']:checked + label + p{
+.collapsible[type='checkbox']:checked + label + p {
   max-height: max-content;
   visibility: visible;
   padding-top: 0.5rem;
@@ -423,19 +448,19 @@ footer {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(6px);
 }
 
 form.project {
   grid-template-columns: repeat(2, 300px);
   grid-template-rows: repeat(5, min-content);
-  grid-template-areas: 
-  "title     date"
-  "desc      desc"
-  "tasks     tasks"
-  "add-task  add-task"
-  "save      save";
+  grid-template-areas:
+    'title     date'
+    'desc      desc'
+    'tasks     tasks'
+    'add-task  add-task'
+    'save      save';
   column-gap: 2rem;
   row-gap: 1rem;
   position: relative;
@@ -463,7 +488,7 @@ form.task .close-modal {
   cursor: pointer;
 }
 
-form .date-flex{
+form .date-flex {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -492,45 +517,43 @@ form button[type='submit'] {
   background-color: var(--color-priority-3);
 }
 
-.floating-content { 
-  position:relative; 
+.floating-content {
+  position: relative;
 }
 
 .floating-label {
-  position:absolute;
-  left:15px;
-  top:11px;
+  position: absolute;
+  left: 15px;
+  top: 11px;
   /* padding: 0 5px; */
-  color: rgba(0,0,0,0.6);
+  color: rgba(0, 0, 0, 0.6);
   background: var(--color-faded-lavender);
-  transition:0.2s ease all; 
-  -moz-transition:0.2s ease all; 
-  -webkit-transition:0.2s ease all;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
 }
 
 form.task .floating-label {
   background: var(--color-beige);
 }
 
-
-.floating-input, .floating-select {
-  display:block;
-  width:100%;
-  height: calc(2*var(--font-size));
+.floating-input,
+.floating-select {
+  display: block;
+  width: 100%;
+  height: calc(2 * var(--font-size));
   padding: 0 20px;
   background: none;
   border: 1px solid var(--color-dark-lavender);
   border-radius: 14px;
-  &:focus{
-    outline:none;
-    ~ .floating-label{
+  &:focus {
+    outline: none;
+    ~ .floating-label {
       top: -10px;
     }
   }
 }
 
 .floating-input:not(:placeholder-shown) ~ .floating-label {
-  top:-10px;
+  top: -10px;
 }
-
-

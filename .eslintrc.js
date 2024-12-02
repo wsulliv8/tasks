@@ -1,7 +1,4 @@
 module.exports = {
-    "root": true,
-    "extends": [
-        "eslint:recommended",
-        "airbnb-base",
-    ]
-}
+  root: true,
+  extends: ['airbnb-base', 'plugin:prettier/recommended', 'prettier'],
+};

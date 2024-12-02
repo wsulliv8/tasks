@@ -1,17 +1,18 @@
-import { formatDate, compareDate } from "../../node_modules/date-fns";
+import { formatDate, compareDate } from '../../node_modules/date-fns';
 import { elementSort } from './task_logic';
 
 export { makeTask, makeProject, elementController };
 
-const elementController = (function() {
+const elementController = (function () {
   let projects = {};
   let newTaskId = 0;
 
   const addProject = (project) => {
     projects[project.info['project_title']] = project;
-  }
+  };
 
-  const removeProject = (project) => delete projects[project.info['project_title']];
+  const removeProject = (project) =>
+    delete projects[project.info['project_title']];
 
   const getNewTaskId = (task) => ++newTaskId;
 
@@ -19,16 +20,20 @@ const elementController = (function() {
 
   function stringify(obj) {
     let cache = [];
-    let str = JSON.stringify(projects, function(key, value) {
-      //discard circular references
-      if (typeof value === "object" && value !== null) {
-        if (cache.indexOf(value) !== -1) {
-          return;
+    let str = JSON.stringify(
+      projects,
+      function (key, value) {
+        //discard circular references
+        if (typeof value === 'object' && value !== null) {
+          if (cache.indexOf(value) !== -1) {
+            return;
+          }
+          cache.push(value);
         }
-        cache.push(value);
-      }
-      return value;
-    }, 2);
+        return value;
+      },
+      2
+    );
     cache = null;
 
     return str;
@@ -42,32 +47,41 @@ const elementController = (function() {
     return form;
   }
 
-  return { projects, addProject, removeProject, getNewTaskId, sort, stringify, objectToForm }
+  return {
+    projects,
+    addProject,
+    removeProject,
+    getNewTaskId,
+    sort,
+    stringify,
+    objectToForm,
+  };
 })();
 
 function makeProject(projectData) {
   const info = {};
   let tasks = [];
 
-  for (const [key, value] of projectData) 
-    info[key] = (key==='project_due_date') 
-      ? new Date(projectData.get(key)).toLocaleDateString('en-US')
-      : projectData.get(key);  
-  
-  function addTask (task) { 
-    this.tasks.push(task)
+  for (const [key, value] of projectData)
+    info[key] =
+      key === 'project_due_date'
+        ? new Date(projectData.get(key)).toLocaleDateString('en-US')
+        : projectData.get(key);
+
+  function addTask(task) {
+    this.tasks.push(task);
     return this;
-  };
+  }
 
   function removeTask(task) {
     this.tasks = this.tasks.filter((currentTask) => {
-      return currentTask.getTaskId() !== task.getTaskId()
+      return currentTask.getTaskId() !== task.getTaskId();
     });
     return this;
   }
 
   const sort = (type) => elementSort(tasks, type);
-  
+
   return { info, addTask, removeTask, tasks, sort };
 }
 
@@ -77,9 +91,10 @@ function makeTask(taskData) {
   let project = '';
 
   for (const [key, value] of taskData) {
-    info[key] = (key==='task_due_date') 
-    ? new Date(taskData.get(key)).toLocaleDateString('en-US')
-    : taskData.get(key); 
+    info[key] =
+      key === 'task_due_date'
+        ? new Date(taskData.get(key)).toLocaleDateString('en-US')
+        : taskData.get(key);
   }
 
   const getTaskId = () => taskId;
@@ -87,7 +102,7 @@ function makeTask(taskData) {
   const setTaskId = (id) => {
     taskId = id;
     return taskId;
-  }
+  };
 
-  return { info, getTaskId, setTaskId, project }
+  return { info, getTaskId, setTaskId, project };
 }
